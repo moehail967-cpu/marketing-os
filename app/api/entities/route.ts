@@ -1,0 +1,2 @@
+import { cleanString, ownerFromRequest } from "@/lib/server-auth";import { deleteEntity } from "@/lib/server-data";
+export async function DELETE(request:Request){try{const body=await request.json() as Record<string,unknown>;await deleteEntity(ownerFromRequest(request),cleanString(body.entity,30),cleanString(body.id,120));return Response.json({ok:true})}catch(error){return Response.json({error:error instanceof Error?error.message:"تعذر الحذف"},{status:400})}}

@@ -1,0 +1,2 @@
+import { cleanString, ownerFromRequest } from "@/lib/server-auth";import { storeUpload } from "@/lib/server-storage";
+export async function POST(request:Request){try{const data=await request.formData(),file=data.get("file");if(!(file instanceof File))return Response.json({error:"اختر ملفًا"},{status:400});return Response.json({asset:await storeUpload(ownerFromRequest(request),file,cleanString(data.get("purpose"),60)||"asset")},{status:201})}catch(error){return Response.json({error:error instanceof Error?error.message:"تعذر رفع الملف"},{status:400})}}
